@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saara Ahmed - Creative Resume</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF69B4;
+            --secondary: #FF1493;
+            --accent: #FFB6C1;
+            --dark: #880E4F;
+            --light: #FFF0F5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: white;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: rotate(8deg) scale(1.05);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .section-title {
+            color: var(--dark);
+            font-size: 1.2rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .skill-tag {
+            background: white;
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.3rem;
+            display: inline-block;
+            border: 2px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .activity-card {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateX(10px);
+            box-shadow: 5px 5px 15px rgba(255,105,180,0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+
+        .contact-item a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        .achievement-badge {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="color: white; margin: 0; font-size: 2.5rem;">Saara Ahmed</h1>
+            <p style="color: var(--light); margin: 0.5rem 0;">B.Tech (CS & Engineering) Student</p>
+        </div>
+
+        <div class="profile-container">
+            <img src="profile.jpg" alt="Saara Ahmed" class="profile-img">
+            <div>
+                <h2 style="color: var(--dark); margin: 0;">About Me</h2>
+                <p style="color: var(--dark);">Undergraduate student passionate about technology, music, and leadership. Combining technical skills with creative expression through programming and musical performance.</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="section">
+                    <h3 class="section-title">Education</h3>
+                    <div class="achievement-badge">
+                        <h4>2024-2028</h4>
+                        <p>B.Tech Computer Science<br>
+                        South Asian University</p>
+                    </div>
+                    <div class="achievement-badge">
+                        <h4>2012-2024</h4>
+                        <p>Class of 2024<br>
+                        Delhi Public School Ghaziabad</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Skills</h3>
+                    <div class="skill-tag">C</div>
+                    <div class="skill-tag">C++</div>
+                    <div class="skill-tag">C#</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">MySQL</div>
+                    <div class="skill-tag">JavaScript</div>
+                    <div class="skill-tag">HTML</div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Contact</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:saara.newdelhi@gmail.com">saara.newdelhi@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        +91 9315961500
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <a href="https://linkedin.com/in/saara-ahmed-972267353" target="_blank">LinkedIn Profile</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <a href="https://github.com/saa-rarara" target="_blank">GitHub Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-section">
+                <div class="section">
+                    <h3 class="section-title">Leadership & Achievements</h3>
+                    <div class="activity-card">
+                        <h4>School Captain 2023-24</h4>
+                        <p>Led student body of 2000+ students, organized major school events and represented student community</p>
+                    </div>
+                    <div class="activity-card">
+                        <h4>Tech Innovator Award</h4>
+                        <p>Recognized for developing innovative software solutions during university tech fest</p>
+                    </div>
+                    <div class="activity-card">
+                        <h4>Community Leadership</h4>
+                        <p>Organized coding workshops for underprivileged students in New Delhi</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Extracurricular Activities</h3>
+                    <div class="activity-card">
+                        <h4>Debate & Public Speaking</h4>
+                        <p>Regular participant in inter-school and university-level debate competitions</p>
+                    </div>
+                    <div class="activity-card">
+                        <h4>Musical Performance</h4>
+                        <p>Classically trained pianist and violinist with 5+ years of experience in opera performances</p>
+                    </div>
+                    <div class="activity-card">
+                        <h4>Tech Community</h4>
+                        <p>Active member of university coding club and open-source contributor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
