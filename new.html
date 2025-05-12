@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Web Dev Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .main {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      color: #6c5ce7;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #f1f1f1;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 8px;
+      color: #495057;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      transition: all 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #6c5ce7;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+
+    .error {
+      color: #ff4757;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    button {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: #5649c0;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      z-index: 1000;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .popup h3 {
+      color: #6c5ce7;
+      margin-bottom: 15px;
+    }
+
+    .popup p {
+      margin-bottom: 20px;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #6c5ce7;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    details {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    details:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    summary {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #6c5ce7;
+      cursor: pointer;
+      padding: 18px 20px;
+      background: #f8f9fa;
+      list-style: none;
+      position: relative;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary:after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    details[open] summary:after {
+      content: '-';
+    }
+
+    .details-content {
+      padding: 0 20px 20px;
+    }
+
+    #colorBox {
+      width: 100%;
+      height: 100px;
+      margin: 15px 0;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      transition: background-color 0.3s;
+    }
+
+    .color-value {
+      font-family: monospace;
+      background: #343a40;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .journal-entry {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .journal-date {
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      margin-top: 40px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .button-group button {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web Dev Project</h1>
+    <p>Name: Saara Ahmed | Enrollment: SAU/CS/BTECH(CSE)/2024/58 | Section: B</p>
+  </header>
+
+  <div class="main">
+    <div class="dashboard">
+      <!-- Form Cards -->
+      <div class="card">
+        <h2>Registration Form</h2>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your full name">
+            <div class="error" id="nameError">Name is required (minimum 3 characters)</div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email">
+            <div class="error" id="emailError">Please enter a valid email address</div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Create a password">
+            <div class="error" id="passwordError">Password must be at least 6 characters</div>
+          </div>
+          <button type="submit">Register</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>User Profile</h2>
+        <form id="profileForm">
+          <div class="form-group">
+            <label for="profileName">Name:</label>
+            <input type="text" id="profileName" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="profileAge">Age:</label>
+            <input type="number" id="profileAge" placeholder="Your age" min="1" max="120">
+          </div>
+          <div class="form-group">
+            <label for="profileRole">Role:</label>
+            <select id="profileRole">
+              <option value="student">Student</option>
+              <option value="professional">Professional</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="button" onclick="displayProfile()">Show Profile</button>
+          <div class="output" id="profileOutput"></div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Color Mixer</h2>
+        <div class="form-group">
+          <label>Red: <span id="redValue">0</span></label>
+          <input type="range" id="red" min="0" max="255" value="120" oninput="updateColor()">
+        </div>
+        <div class="form-group">
+          <label>Green: <span id="greenValue">0</span></label>
+          <input type="range" id="green" min="0" max="255" value="80" oninput="updateColor()">
+        </div>
+        <div class="form-group">
+          <label>Blue: <span id="blueValue">0</span></span></label>
+          <input type="range" id="blue" min="0" max="255" value="200" oninput="updateColor()">
+        </div>
+        <div id="colorBox"></div>
+        <div class="output">
+          RGB: <span class="color-value" id="rgbValue">rgb(120, 80, 200)</span>
+          <br>
+          HEX: <span class="color-value" id="hexValue">#7850c8</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <!-- Calculator -->
+      <details>
+        <summary>Advanced Calculator</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="calcNum1">First Number:</label>
+            <input type="number" id="calcNum1" placeholder="Enter first number">
+          </div>
+          <div class="form-group">
+            <label for="calcNum2">Second Number:</label>
+            <input type="number" id="calcNum2" placeholder="Enter second number">
+          </div>
+          <div class="form-group">
+            <label for="operation">Operation:</label>
+            <select id="operation">
+              <option value="add">Add (+)</option>
+              <option value="subtract">Subtract (-)</option>
+              <option value="multiply">Multiply (×)</option>
+              <option value="divide">Divide (÷)</option>
+              <option value="power">Power (^)</option>
+              <option value="modulo">Modulo (%)</option>
+            </select>
+          </div>
+          <button onclick="calculate()">Calculate</button>
+          <div class="output" id="calcOutput">Result will appear here</div>
+        </div>
+      </details>
+
+      <!-- Number Tools -->
+      <details>
+        <summary>Number Tools</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="numInput">Enter a Number:</label>
+            <input type="number" id="numInput" placeholder="Any number">
+          </div>
+          <div class="button-group">
+            <button onclick="checkEvenOdd()">Even/Odd</button>
+            <button onclick="calculateSquare()">Square</button>
+            <button onclick="calculateFactorial()">Factorial</button>
+            <button onclick="generateTable()">Multiplication Table</button>
+          </div>
+          <div class="output" id="numToolsOutput">Results will appear here</div>
+        </div>
+      </details>
+
+      <!-- Grade Calculator -->
+      <details>
+        <summary>Grade Calculator</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="marks">Enter Your Marks:</label>
+            <input type="number" id="marks" placeholder="0-100" min="0" max="100">
+          </div>
+          <button onclick="calculateGrade()">Calculate Grade</button>
+          <div class="output" id="gradeOutput">Your grade will appear here</div>
+        </div>
+      </details>
+
+      <!-- Daily Journal -->
+      <details>
+        <summary>Daily Journal</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="journalEntry">Today's Entry:</label>
+            <textarea id="journalEntry" rows="4" placeholder="Write about your day..."></textarea>
+          </div>
+          <button onclick="saveEntry()">Save Entry</button>
+          <div id="entries"></div>
+        </div>
+      </details>
+
+      <!-- Data Converter -->
+      <details>
+        <summary>Data Converter</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="converterInput">Enter Value:</label>
+            <input type="number" id="converterInput" placeholder="Enter a number">
+          </div>
+          <div class="form-group">
+            <label for="converterType">Conversion Type:</label>
+            <select id="converterType">
+              <option value="celsiusToFahrenheit">Celsius to Fahrenheit</option>
+              <option value="fahrenheitToCelsius">Fahrenheit to Celsius</option>
+              <option value="kmToMiles">Kilometers to Miles</option>
+              <option value="milesToKm">Miles to Kilometers</option>
+              <option value="kgToPounds">Kilograms to Pounds</option>
+              <option value="poundsToKg">Pounds to Kilograms</option>
+            </select>
+          </div>
+          <button onclick="convertData()">Convert</button>
+          <div class="output" id="converterOutput">Converted value will appear here</div>
+        </div>
+      </details>
+
+      <!-- String Manipulator -->
+      <details>
+        <summary>String Manipulator</summary>
+        <div class="details-content">
+          <div class="form-group">
+            <label for="stringInput">Enter Text:</label>
+            <input type="text" id="stringInput" placeholder="Enter some text">
+          </div>
+          <div class="button-group">
+            <button onclick="reverseString()">Reverse</button>
+            <button onclick="countCharacters()">Count Chars</button>
+            <button onclick="toUpperCase()">Uppercase</button>
+            <button onclick="toLowerCase()">Lowercase</button>
+          </div>
+          <div class="output" id="stringOutput">Results will appear here</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    <h3>🎉 Registration Successful! 🎉</h3>
+    <p>Thank you for signing up!</p>
+    <div class="output" id="userData"></div>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  
+
+  <script>
+    // Registration Form Validation
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      let isValid = true;
+      
+      // Name validation
+      const name = document.getElementById("name").value.trim();
+      if (name.length < 3) {
+        document.getElementById("nameError").style.display = "block";
+        isValid = false;
+      } else {
+        document.getElementById("nameError").style.display = "none";
+      }
+      
+      // Email validation
+      const email = document.getElementById("email").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        document.getElementById("emailError").style.display = "block";
+        isValid = false;
+      } else {
+        document.getElementById("emailError").style.display = "none";
+      }
+      
+      // Password validation
+      const password = document.getElementById("password").value;
+      if (password.length < 6) {
+        document.getElementById("passwordError").style.display = "block";
+        isValid = false;
+      } else {
+        document.getElementById("passwordError").style.display = "none";
+      }
+      
+      if (isValid) {
+        // Show success popup with user data
+        document.getElementById("userData").innerHTML = `
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+        `;
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("registerForm").reset();
+      }
+    });
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Profile Display
+    function displayProfile() {
+      const name = document.getElementById("profileName").value.trim() || "Anonymous";
+      const age = document.getElementById("profileAge").value || "Not specified";
+      const role = document.getElementById("profileRole").value;
+      
+      let roleText = "";
+      switch(role) {
+        case "student":
+          roleText = "🎓 Student";
+          break;
+        case "professional":
+          roleText = "💼 Professional";
+          break;
+        default:
+          roleText = "👤 Other";
+      }
+      
+      document.getElementById("profileOutput").innerHTML = `
+        <h3>Your Profile</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Age:</strong> ${age}</p>
+        <p><strong>Role:</strong> ${roleText}</p>
+      `;
+    }
+
+    // Color Mixer
+    function updateColor() {
+      const red = document.getElementById("red").value;
+      const green = document.getElementById("green").value;
+      const blue = document.getElementById("blue").value;
+      
+      // Update values display
+      document.getElementById("redValue").textContent = red;
+      document.getElementById("greenValue").textContent = green;
+      document.getElementById("blueValue").textContent = blue;
+      
+      // Set the box color
+      const colorBox = document.getElementById("colorBox");
+      const rgbColor = `rgb(${red}, ${green}, ${blue})`;
+      colorBox.style.backgroundColor = rgbColor;
+      
+      // Convert to HEX
+      const hexColor = `#${Number(red).toString(16).padStart(2, '0')}${Number(green).toString(16).padStart(2, '0')}${Number(blue).toString(16).padStart(2, '0')}`;
+      
+      // Update color values display
+      document.getElementById("rgbValue").textContent = rgbColor;
+      document.getElementById("hexValue").textContent = hexColor;
+    }
+
+    // Initialize color mixer
+    updateColor();
+
+    // Calculator
+    function calculate() {
+      const num1 = parseFloat(document.getElementById("calcNum1").value);
+      const num2 = parseFloat(document.getElementById("calcNum2").value);
+      const operation = document.getElementById("operation").value;
+      
+      if (isNaN(num1) || isNaN(num2)) {
+        document.getElementById("calcOutput").textContent = "Please enter valid numbers";
+        return;
+      }
+      
+      let result;
+      switch(operation) {
+        case "add":
+          result = num1 + num2;
+          break;
+        case "subtract":
+          result = num1 - num2;
+          break;
+        case "multiply":
+          result = num1 * num2;
+          break;
+        case "divide":
+          result = num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
+          break;
+        case "power":
+          result = Math.pow(num1, num2);
+          break;
+        case "modulo":
+          result = num2 !== 0 ? num1 % num2 : "Cannot modulo by zero";
+          break;
+        default:
+          result = "Invalid operation";
+      }
+      
+      document.getElementById("calcOutput").innerHTML = `
+        <strong>Result:</strong> ${result}
+      `;
+    }
+
+    // Number Tools
+    function checkEvenOdd() {
+      const num = parseFloat(document.getElementById("numInput").value);
+      if (isNaN(num)) {
+        document.getElementById("numToolsOutput").textContent = "Please enter a valid number";
+        return;
+      }
+      
+      const result = num % 2 === 0 ? "Even" : "Odd";
+      document.getElementById("numToolsOutput").innerHTML = `
+        <strong>${num}</strong> is an <strong>${result}</strong> number
+      `;
+    }
+
+    function calculateSquare() {
+      const num = parseFloat(document.getElementById("numInput").value);
+      if (isNaN(num)) {
+        document.getElementById("numToolsOutput").textContent = "Please enter a valid number";
+        return;
+      }
+      
+      const square = num * num;
+      document.getElementById("numToolsOutput").innerHTML = `
+        Square of <strong>${num}</strong> is <strong>${square}</strong>
+      `;
+    }
+
+    function calculateFactorial() {
+      const num = parseInt(document.getElementById("numInput").value);
+      if (isNaN(num) || num < 0) {
+        document.getElementById("numToolsOutput").textContent = "Please enter a positive integer";
+        return;
+      }
+      
+      let factorial = 1;
+      for (let i = 2; i <= num; i++) {
+        factorial *= i;
+      }
+      
+      document.getElementById("numToolsOutput").innerHTML = `
+        <strong>${num}!</strong> = <strong>${factorial}</strong>
+      `;
+    }
+
+    function generateTable() {
+      const num = parseInt(document.getElementById("numInput").value);
+      if (isNaN(num)) {
+        document.getElementById("numToolsOutput").textContent = "Please enter a valid number";
+        return;
+      }
+      
+      let tableHTML = `<h4>Multiplication Table for ${num}</h4>`;
+      for (let i = 1; i <= 10; i++) {
+        tableHTML += `<p>${num} × ${i} = ${num * i}</p>`;
+      }
+      
+      document.getElementById("numToolsOutput").innerHTML = tableHTML;
+    }
+
+    // Grade Calculator
+    function calculateGrade() {
+      const marks = parseFloat(document.getElementById("marks").value);
+      
+      if (isNaN(marks) || marks < 0 || marks > 100) {
+        document.getElementById("gradeOutput").textContent = "Please enter marks between 0-100";
+        return;
+      }
+      
+      let grade;
+      if (marks >= 90) grade = "A+ (Excellent)";
+      else if (marks >= 80) grade = "A (Very Good)";
+      else if (marks >= 70) grade = "B+ (Good)";
+      else if (marks >= 60) grade = "B (Above Average)";
+      else if (marks >= 50) grade = "C (Average)";
+      else if (marks >= 40) grade = "D (Below Average)";
+      else grade = "F (Fail)";
+      
+      document.getElementById("gradeOutput").innerHTML = `
+        <strong>Marks:</strong> ${marks}<br>
+        <strong>Grade:</strong> ${grade}
+      `;
+    }
+
+    // Daily Journal
+    function saveEntry() {
+      const entry = document.getElementById("journalEntry").value.trim();
+      if (!entry) {
+        alert("Please write something before saving");
+        return;
+      }
+      
+      const now = new Date();
+      const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+      
+      const entryDiv = document.createElement("div");
+      entryDiv.className = "journal-entry";
+      entryDiv.innerHTML = `
+        <div class="journal-date">${dateStr}</div>
+        <p>${entry}</p>
+      `;
+      
+      document.getElementById("entries").prepend(entryDiv);
+      document.getElementById("journalEntry").value = "";
+    }
+
+    // Data Converter
+    function convertData() {
+      const value = parseFloat(document.getElementById("converterInput").value);
+      const type = document.getElementById("converterType").value;
+      
+      if (isNaN(value)) {
+        document.getElementById("converterOutput").textContent = "Please enter a valid number";
+        return;
+      }
+      
+      let result;
+      let explanation = "";
+      
+      switch(type) {
+        case "celsiusToFahrenheit":
+          result = (value * 9/5) + 32;
+          explanation = `${value}°C = ${result.toFixed(2)}°F`;
+          break;
+        case "fahrenheitToCelsius":
+          result = (value - 32) * 5/9;
+          explanation = `${value}°F = ${result.toFixed(2)}°C`;
+          break;
+        case "kmToMiles":
+          result = value * 0.621371;
+          explanation = `${value} km = ${result.toFixed(2)} miles`;
+          break;
+        case "milesToKm":
+          result = value * 1.60934;
+          explanation = `${value} miles = ${result.toFixed(2)} km`;
+          break;
+        case "kgToPounds":
+          result = value * 2.20462;
+          explanation = `${value} kg = ${result.toFixed(2)} pounds`;
+          break;
+        case "poundsToKg":
+          result = value * 0.453592;
+          explanation = `${value} pounds = ${result.toFixed(2)} kg`;
+          break;
+      }
+      
+      document.getElementById("converterOutput").innerHTML = `
+        <strong>${explanation}</strong>
+      `;
+    }
+
+    // String Manipulator
+    function reverseString() {
+      const text = document.getElementById("stringInput").value;
+      const reversed = text.split('').reverse().join('');
+      document.getElementById("stringOutput").innerHTML = `
+        <strong>Reversed:</strong> ${reversed}
+      `;
+    }
+
+    function countCharacters() {
+      const text = document.getElementById("stringInput").value;
+      document.getElementById("stringOutput").innerHTML = `
+        <strong>Character Count:</strong> ${text.length}
+      `;
+    }
+
+    function toUpperCase() {
+      const text = document.getElementById("stringInput").value;
+      document.getElementById("stringOutput").innerHTML = `
+        <strong>Uppercase:</strong> ${text.toUpperCase()}
+      `;
+    }
+
+    function toLowerCase() {
+      const text = document.getElementById("stringInput").value;
+      document.getElementById("stringOutput").innerHTML = `
+        <strong>Lowercase:</strong> ${text.toLowerCase()}
+      `;
+    }
+  </script>
+</body>
+</html>
